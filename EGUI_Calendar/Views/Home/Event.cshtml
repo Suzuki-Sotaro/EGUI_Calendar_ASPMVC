@@ -1,0 +1,77 @@
+﻿@model EventViewModel
+@{
+    ViewData["Title"] = Model.Title;
+}
+@functions {
+    public object GetFullDate()
+    {
+        var year = int.Parse(Context.Request.Query["year"].ToString());
+        var month = int.Parse(Context.Request.Query["month"].ToString());
+        var day = int.Parse(Context.Request.Query["day"].ToString());
+
+        return new
+        {
+            year,
+            month,
+            day
+        };
+    }
+    public object GetEventRoute()
+    {
+        var year = int.Parse(Context.Request.Query["year"].ToString());
+        var month = int.Parse(Context.Request.Query["month"].ToString());
+        var day = int.Parse(Context.Request.Query["day"].ToString());
+        var id = Context.Request.Query["id"].ToString();
+
+        return new
+        {
+            year,
+            month,
+            day,
+            id
+        };
+    }
+}
+
+<div class="row bg3">
+    <div class="col text-chonker text-left">
+        <a class="hyperlink" href=@Url.Action("Day", GetFullDate())><</a>
+    </div>
+    <div class="col-10 text-chonker text-center">
+        @Model.Title
+    </div>
+    <div class="col text-chonker text-right">
+
+    </div>
+</div>
+
+@using (Html.BeginForm(Model.Edit ? "Edit" : "New", "Home", Model.Edit ? GetEventRoute() : GetFullDate(), FormMethod.Post))
+{
+    <div class="row">
+        <br />
+    </div>
+    <div class="row">
+        <div class="col-2 text-chonk">
+            Time
+        </div>
+        <div class="col text-chonk">
+            <input class="input" type="time" name="time" value="@(Model.Time)" required />
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-2 text-chonk">
+            Name
+        </div>
+        <div class="col text-chonk">
+            <input class="input w-100" type="text" name="name" maxlength="150" value="@(Model.Name)" required />
+        </div>
+    </div>
+    <div class="row">
+        <br />
+    </div>
+    <div class="row">
+        <div class="col text-chonk">
+            <input class="hyperlink bg4" type="submit" value="OK" />
+        </div>
+    </div>
+}
